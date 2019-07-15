@@ -4,15 +4,15 @@ node {
 	checkout scm
     }
 
-    stage('Build image') {
-        frontend = docker.build("somud17/phpredis","./php-redis")
+    //stage('Build image') {
+      //  frontend = docker.build("somud17/phpredis","./php-redis")
         //backend = docker.build("somud17/redisslave","./redis-slave")
-    }
+    //}
 
-    stage('Push image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            frontend.push("${env.BUILD_NUMBER}")
-            frontend.push("latest")
+    //stage('Push image') {
+      //  docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+        //    frontend.push("${env.BUILD_NUMBER}")
+          //  frontend.push("latest")
             //backend.push("${env.BUILD_NUMBER}")
             //backend.push("latest")
         }
