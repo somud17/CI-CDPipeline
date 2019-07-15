@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rediscluster.redisSlave.fullname" . }}
+  labels:
+{{ include "rediscluster.redisSlave.labels" . | indent 4 }}
+spec:
+  ports:
+  - port: 6379
+  selector:
+{{ include "rediscluster.redisSlave.labels" . | indent 6 }}

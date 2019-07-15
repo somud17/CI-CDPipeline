@@ -1,0 +1,27 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "rediscluster.redisMaster.fullname" . }}
+  labels:
+{{ include "rediscluster.redisMaster.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+{{ include "rediscluster.redisMaster.labels" . | indent 6 }}
+  replicas: {{ .Values.redisMaster.replicaCount }}
+  template:
+    metadata:
+      labels:
+{{ include "rediscluster.redisMaster.labels" . | indent 8 }}
+    spec:
+      containers:
+      - name: master
+        image: "{{ .Values.redisMaster.image.repository }}:{{ .Values.redisMaster.image.tag }}"
+        imagePullPolicy: {{ .Values.redisMaster.image.pullPolicy }}
+        # k8s.gcr.io/redis:e2e  # or just image: redis
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379

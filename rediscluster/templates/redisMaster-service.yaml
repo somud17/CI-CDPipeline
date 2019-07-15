@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rediscluster.redisMaster.fullname" . }}
+  labels:
+{{ include "rediscluster.redisMaster.labels" . | indent 4 }}
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+{{ include "rediscluster.redisMaster.labels" . | indent 6 }}

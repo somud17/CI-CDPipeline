@@ -1,0 +1,27 @@
+# Default values for rediscluster.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+
+redisMaster:
+    name: redismaster
+    replicaCount: 1
+    image:
+        repository: k8s.gcr.io/redis
+        tag: latest
+        pullPolicy: IfNotPresent
+
+
+
+redisSlave:
+    name: redisslave
+    replicaCount: 2
+    image:
+        repository: gcr.io/google_samples/gb-redisslave
+        tag: v1
+        pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""

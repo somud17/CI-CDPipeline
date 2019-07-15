@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: guestbook-11-phpredis
+spec:
+  hosts:
+  - "guestbook.example.com"
+  gateways:
+  - guestbook-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: guestbook-1-phpredis
+      weight: 50
+    - destination:
+        port:
+          number: 80
+        host: guestbook-5-phpredis
+      weight: 50
+

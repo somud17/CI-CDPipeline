@@ -1,0 +1,38 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "guest-book.phpRedis.fullname" . }}
+  labels:
+{{ include "guest-book.phpRedis.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+{{ include "guest-book.phpRedis.labels" . | indent 6 }}
+  replicas: {{ .Values.phpRedis.replicaCount }}
+  template:
+    metadata:
+      labels:
+{{ include "guest-book.phpRedis.labels" . | indent 8 }}
+    spec:
+      containers:
+      - name: php-redis
+        image: "{{ .Values.phpRedis.image.repository }}:{{ .Values.phpRedis.image.tag }}"
+        imagePullPolicy: {{ .Values.phpRedis.image.pullPolicy }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        - name: REDIS_MASTER_SERVICE_HOST
+          value: {{ .Values.phpRedis.redisMaster }}
+        - name: REDIS_SLAVE_SERVICE_HOST
+          value: {{ .Values.phpRedis.redisSlave }}
+          # If your cluster config does not include a dns service, then to
+          # instead access environment variables to find service host
+          # info, comment out the 'value: dns' line above, and uncomment the
+          # line below:
+          # value: env
+        ports:
+        - containerPort: 80
