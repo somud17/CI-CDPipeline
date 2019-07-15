@@ -1,5 +1,5 @@
 import sys
-import yaml
+#import yaml
 import time
 import commands
 def apply_vs(depname):
