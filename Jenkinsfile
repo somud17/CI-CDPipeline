@@ -15,8 +15,8 @@ node {
           //  frontend.push("latest")
             //backend.push("${env.BUILD_NUMBER}")
             //backend.push("latest")
-        }
-     }
+       // }
+   //  }
      stage('DeployApplication') {
         // Ensure Namespace Deployment is labeled for istio injection
         def status = sh(returnStatus: true, script: "helm ls | grep -q guestbook")
