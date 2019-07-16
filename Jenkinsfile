@@ -33,7 +33,8 @@ node {
         POD_NAME = sh(script: "kubectl get pods --namespace monitoring -l \"app=prometheus-node-exporter,release=prometheus\" -o jsonpath=\"{.items[0].metadata.name}\"",returnStdout: true).trim()
         echo "Visit http://127.0.0.1:8080 to use prometheus-node-exporter"
 	echo "${POD_NAME}"	
-	sh "kubectl patch svc $POD_NAME --namespace monitoring -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'"
+	SERVICE_NAME = sh(script: "kubectl get svc --namespace monitoring | awk '{print\$2}'",returnStdout: true).trim()
+	sh "kubectl patch svc $SERVICE_NAME --namespace monitoring -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'"
 	//SERVICE_IP = sh(script: "kubectl get svc $POD_NAME --namespace monitoring --output jsonpath='{.status.loadBalancer.ingress[0].ip}'",returnStdout: true).trim()
 	sh "kubectl get svc --namespace monitoring "
 	sh "kubectl --namespace monitoring port-forward $POD_NAME 9000"	
