@@ -45,4 +45,14 @@ node {
           //  sh "python2 first.py guestbook-${env.BUILD_NUMBER}"
        // }
     }
+	stage('DeployMonitoring') {
+        sh "helm get stable/prometheus-node-exporter"
+        OLD_BUILD_NUMBER = sh(script: "helm ls | grep prometheus | awk '{print\$1}'",returnStdout: true).trim()
+        echo "${OLD_BUILD_NUMBER}"
+        sh "kubectl create ns monitoring || true"
+        sh "kubectl label namespace monitoring istio-injection=enabled || true"
+        sh "helm install --namespace monitoring --name prometheus --set prometheus.replicaCount=1"
+	sh "kubectl expose monitoring prometheus --type=NodePort"
+	sh "kubectl get svc --namespace monitoring"
+       
 }
