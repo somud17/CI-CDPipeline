@@ -33,16 +33,16 @@ node {
         }
         
         sh "helm install guest-book --name guestbook-${env.BUILD_NUMBER} --namespace deployment --set phpRedis.replicaCount=1  --set phpRedis.image.repository=kartiksharma522/phpredis --set phpRedis.image.tag=${env.BUILD_NUMBER} "
-        if( status == 0 ){
+       // if( status == 0 ){
             //Canary Deployment
             //sh "python2 canary.py ${OLD_BUILD_NUMBER} guestbook-${env.BUILD_NUMBER} 10"
 
             //BlueGreen Deployment
-            sh "python2 bluegreen.py ${OLD_BUILD_NUMBER} guestbook-${env.BUILD_NUMBER}"
+         //   sh "python2 bluegreen.py ${OLD_BUILD_NUMBER} guestbook-${env.BUILD_NUMBER}"
 
-            sh "helm delete --purge ${OLD_BUILD_NUMBER} || true"
-        } else {
-            sh "python2 first.py guestbook-${env.BUILD_NUMBER}"
+           // sh "helm delete --purge ${OLD_BUILD_NUMBER} || true"
+        //} else {
+          //  sh "python2 first.py guestbook-${env.BUILD_NUMBER}"
         }
     }
 }
