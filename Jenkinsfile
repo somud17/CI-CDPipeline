@@ -30,7 +30,7 @@ node {
         if(backend != 0){
             sh "helm install --namespace monitoring --name prometheus stable/prometheus-node-exporter --set prometheus.replicaCount=1"
         }
-        POD_NAME = sh(script: "kubectl get pods --namespace monitoring -l "app=prometheus-node-exporter,release=prometheus" -o jsonpath="{.items[0].metadata.name}"",returnStdout: true).trim()
+        POD_NAME = sh(script: "kubectl get pods --namespace monitoring -l \"app=prometheus-node-exporter,release=prometheus\" -o jsonpath=\"{.items[0].metadata.name}\"",returnStdout: true).trim()
         echo "Visit http://127.0.0.1:8080 to use prometheus-node-exporter"
 	echo "${POD_NAME}"
 	sh "kubectl --namespace monitoring port-forward \$POD_NAME 9100:90"
