@@ -43,6 +43,6 @@ node {
            // sh "helm delete --purge ${OLD_BUILD_NUMBER} || true"
         //} else {
           //  sh "python2 first.py guestbook-${env.BUILD_NUMBER}"
-        }
+       // }
     }
 }
