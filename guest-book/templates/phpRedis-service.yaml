@@ -6,11 +6,11 @@ metadata:
 {{ include "guest-book.phpRedis.labels" . | indent 4 }}
 spec:
   # comment or delete the following line if you want to use a LoadBalancer
-  type: NodePort
+  # type: NodePort
   # if your cluster supports it, uncomment the following to automatically create
   # an external load-balanced IP for the frontend service.
-  # type: LoadBalancer
+  type: LoadBalancer
   ports:
-  - port: 80
+  - port: 90
   selector:
 {{ include "guest-book.phpRedis.labels" . | indent 6 }}
